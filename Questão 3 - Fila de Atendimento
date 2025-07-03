@@ -1,0 +1,78 @@
+# Classe para representar um nó da lista encadeada
+class No:
+    def __init__(self, dado):
+        self.dado = dado
+        self.proximo = None
+
+# Classe Fila com lista encadeada
+class Fila:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def esta_vazia(self):
+        return self.inicio is None
+
+    def enqueue(self, dado):
+        novo_no = No(dado)
+        if self.esta_vazia():
+            self.inicio = novo_no
+            self.fim = novo_no
+        else:
+            self.fim.proximo = novo_no
+            self.fim = novo_no
+
+    def dequeue(self):
+        if self.esta_vazia():
+            return None
+        cliente = self.inicio.dado
+        self.inicio = self.inicio.proximo
+        if self.inicio is None:
+            self.fim = None
+        return cliente
+
+    def mostrar_fila(self):
+        atual = self.inicio
+        fila_str = "Fila: ["
+        while atual:
+            fila_str += atual.dado
+            if atual.proximo:
+                fila_str += " -> "
+            atual = atual.proximo
+        fila_str += "]"
+        print(fila_str)
+
+# Função para adicionar um novo cliente à fila
+def novo_cliente(fila, nome_cliente):
+    fila.enqueue(nome_cliente)
+    print(f"🧍 Novo cliente na fila: {nome_cliente}")
+    fila.mostrar_fila()
+
+# Função para atender o próximo cliente da fila
+def atender_cliente(fila):
+    cliente = fila.dequeue()
+    if cliente:
+        print(f"✅ Atendendo cliente: {cliente}")
+    else:
+        print("⚠️ Fila vazia. Nenhum cliente para atender.")
+    fila.mostrar_fila()
+
+# Simulação
+fila_atendimento = Fila()
+
+# Adicionando 3 clientes
+novo_cliente(fila_atendimento, "Alice")
+novo_cliente(fila_atendimento, "Bruno")
+novo_cliente(fila_atendimento, "Carla")
+
+# Atendendo um cliente
+atender_cliente(fila_atendimento)
+
+# Adicionando mais um cliente
+novo_cliente(fila_atendimento, "Daniela")
+
+# Atendendo todos até a fila esvaziar
+atender_cliente(fila_atendimento)
+atender_cliente(fila_atendimento)
+atender_cliente(fila_atendimento)
+atender_cliente(fila_atendimento)  # tentativa de atender quando a fila já está vazia
