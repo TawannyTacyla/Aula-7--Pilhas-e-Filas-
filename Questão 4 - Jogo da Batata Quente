@@ -1,0 +1,68 @@
+# Classe No (para fila com lista encadeada)
+class No:
+    def __init__(self, dado):
+        self.dado = dado
+        self.proximo = None
+
+# Classe Fila com lista encadeada
+class Fila:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def esta_vazia(self):
+        return self.inicio is None
+
+    def enqueue(self, dado):
+        novo_no = No(dado)
+        if self.esta_vazia():
+            self.inicio = novo_no
+            self.fim = novo_no
+        else:
+            self.fim.proximo = novo_no
+            self.fim = novo_no
+
+    def dequeue(self):
+        if self.esta_vazia():
+            return None
+        valor = self.inicio.dado
+        self.inicio = self.inicio.proximo
+        if self.inicio is None:
+            self.fim = None
+        return valor
+
+    def tamanho(self):
+        atual = self.inicio
+        cont = 0
+        while atual:
+            cont += 1
+            atual = atual.proximo
+        return cont
+
+    def primeiro(self):
+        if not self.esta_vazia():
+            return self.inicio.dado
+
+# Função do jogo da batata quente
+def simular_batata_quente(lista_nomes, num_passes):
+    fila = Fila()
+
+    # Adiciona todos os nomes na fila
+    for nome in lista_nomes:
+        fila.enqueue(nome)
+
+    # Enquanto houver mais de uma pessoa, simula o jogo
+    while fila.tamanho() > 1:
+        for _ in range(num_passes):
+            pessoa = fila.dequeue()
+            fila.enqueue(pessoa)  # Passa a batata para o próximo
+
+        eliminado = fila.dequeue()  # Pessoa que se queimou
+        print(f"🔥 {eliminado} foi eliminado(a) da rodada!")
+
+    vencedor = fila.primeiro()
+    print(f"🏆 O vencedor é: {vencedor}")
+    return vencedor
+
+# Exemplo de uso
+simular_batata_quente(["Ana", "Bia", "Carlos", "Dani", "Eva"], 7)
