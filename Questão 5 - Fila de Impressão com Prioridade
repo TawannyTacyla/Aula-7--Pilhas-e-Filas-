@@ -1,0 +1,42 @@
+class FilaDePrioridade:
+    def __init__(self):
+        self.itens = []  # Lista de tuplas (dado, prioridade)
+
+    def esta_vazia(self):
+        return len(self.itens) == 0
+
+    def enqueue(self, dado, prioridade):
+        pos = 0
+        # Encontra a posição correta para inserir mantendo a prioridade
+        while pos < len(self.itens) and self.itens[pos][1] <= prioridade:
+            pos += 1
+        # Insere na posição encontrada
+        self.itens.insert(pos, (dado, prioridade))
+        print(f"Enfileirado: '{dado}' com prioridade {prioridade}")
+        self.mostrar_fila()
+
+    def dequeue(self):
+        if self.esta_vazia():
+            print("Fila vazia, nada para atender.")
+            return None
+        dado, prioridade = self.itens.pop(0)
+        print(f"Atendido: '{dado}' com prioridade {prioridade}")
+        self.mostrar_fila()
+        return dado
+
+    def mostrar_fila(self):
+        fila_str = "Fila de Prioridade: ["
+        fila_str += ", ".join(f"('{d}', p={p})" for d, p in self.itens)
+        fila_str += "]"
+        print(fila_str)
+
+# Exemplo de uso
+fila = FilaDePrioridade()
+fila.enqueue("Relatório Urgente", 1)
+fila.enqueue("Documento Normal", 5)
+fila.enqueue("E-mail Rápido", 2)
+
+fila.dequeue()  # Deve atender "Relatório Urgente"
+fila.dequeue()  # Deve atender "E-mail Rápido"
+fila.dequeue()  # Deve atender "Documento Normal"
+fila.dequeue()  # Tentar atender quando fila está vazia
