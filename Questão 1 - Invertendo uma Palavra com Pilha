@@ -1,0 +1,37 @@
+# Implementação da classe Pilha
+class Pilha:
+    def __init__(self):
+        self.itens = []  # Lista usada como estrutura de pilha
+
+    def push(self, item):
+        self.itens.append(item)  # Adiciona item ao topo da pilha
+
+    def pop(self):
+        if not self.esta_vazia():
+            return self.itens.pop()  # Remove e retorna o topo da pilha
+
+    def esta_vazia(self):
+        return len(self.itens) == 0  # Verifica se a pilha está vazia
+
+# Função que inverte uma string usando a Pilha
+def inverter_string(texto):
+    pilha = Pilha()  # Criação da pilha
+    
+    # Passo 1: empilhar cada caractere
+    for caractere in texto:
+        pilha.push(caractere)
+    
+    # Passo 2: desempilhar para formar string invertida
+    texto_invertido = ""
+    while not pilha.esta_vazia():
+        texto_invertido += pilha.pop()
+    
+    return texto_invertido
+
+# Exemplo de uso
+entrada = "Alegria"
+saida = inverter_string(entrada)
+
+# Exibindo resultado
+print("Entrada:", entrada)
+print("Saída:", saida)
